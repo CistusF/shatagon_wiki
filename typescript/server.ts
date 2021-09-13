@@ -3,10 +3,10 @@ import session from "express-session";
 import fetch from "node-fetch";
 
 const app = express();
-const { clientId, clientSecret, password } = require('./config');
+const { clientId, clientSecret, password, secret } = require('./config');
 
 app.use(session({
-    secret: '!%#!#DAset#q9pijbteqjb35u901pjrvmkl#RJ{P!BJRMKQE>V',
+    secret: secret,
     resave: false,
     saveUninitialized: true,
     cookie: { httpOnly: true }

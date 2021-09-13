@@ -43,9 +43,9 @@ var express_1 = __importDefault(require("express"));
 var express_session_1 = __importDefault(require("express-session"));
 var node_fetch_1 = __importDefault(require("node-fetch"));
 var app = express_1.default();
-var _a = require('./config'), clientId = _a.clientId, clientSecret = _a.clientSecret, password = _a.password;
+var _a = require('./config'), clientId = _a.clientId, clientSecret = _a.clientSecret, password = _a.password, secret = _a.secret;
 app.use(express_session_1.default({
-    secret: '!%#!#DAset#q9pijbteqjb35u901pjrvmkl#RJ{P!BJRMKQE>V',
+    secret: secret,
     resave: false,
     saveUninitialized: true,
     cookie: { httpOnly: true }
