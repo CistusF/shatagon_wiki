@@ -3,7 +3,7 @@ import Footer from './modules/Footer';
 
 import style from './Wiki.module.css';
 
-import { Button, ButtonGroup, Table } from 'react-bootstrap';
+import { Button, ButtonGroup, FormControl, Table, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 function Wiki() {
@@ -20,6 +20,16 @@ function Wiki() {
                     <Button variant="secondary">행성계</Button>
                     <Button variant="secondary">화물</Button>
                 </ButtonGroup>
+                <InputGroup className="mb-3">
+                    <FormControl
+                        placeholder="Recipient's username"
+                        aria-label="Recipient's username"
+                        aria-describedby="basic-addon2"
+                    />
+                    <Button variant="outline-secondary" id="button-addon2">
+                        Button
+                    </Button>
+                </InputGroup>
                 <Table style={{
                     "textAlign": "center"
                 }} variant="dark" striped bordered hover>
