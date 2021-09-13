@@ -1,17 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Switch, Route, BrowserRouter as Router, } from 'react-router-dom';
+
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 import App from './App';
+import Wiki from './Wiki';
+import Editor from './Editor';
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Switch>
-        <Route exact path="/">
-          <App />
-        </Route>
+        <Route exact path="/" component={App} />
+        <Route exact path="/test" component={Wiki} />
+        <Route exact path="/edit" component={Editor} />
       </Switch>
     </Router>
   </React.StrictMode>,

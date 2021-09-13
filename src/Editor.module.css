@@ -1,0 +1,17 @@
+.text {
+    color: floralwhite;
+}
+
+.form {
+    margin-top: 5vh;
+}
+
+.submit {
+    margin-top: 5vh;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    flex: 1 0;
+}

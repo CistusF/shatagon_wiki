@@ -1,3 +1,5 @@
 {
+    "clientId": "DiscordBotClientId",
+    "clientSecret": "DiscordBotClientSecret",
     "password": "password"
 }
