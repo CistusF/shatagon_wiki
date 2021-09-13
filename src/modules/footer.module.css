@@ -1,0 +1,19 @@
+.Footer {
+    color: rgba(255, 255, 255, .55);
+    padding: 15px;
+    text-align: center;
+    background-color: rgb(40, 40, 40);
+}
+
+.link {
+    color: rgba(255, 255, 255, 0.5);
+    transition: color 0.5s;
+}
+
+.link:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
+.link:link {
+    text-decoration: none;
+}
