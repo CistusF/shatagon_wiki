@@ -20,26 +20,26 @@ function 함선() {
                     </Form.Group>
                 </Col>
                 <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
+                    <Form.Group md="4">
                         <Form.Label className={style.text}>종류</Form.Label>
                         <Form.Control
                             required
-                            name="종류"
+                            name="함선제원"
                             type="text"
-                            placeholder="종류"
+                            placeholder="함선제원"
                         />
                     </Form.Group>
                 </Col>
                 <Col>
                     <Form.Group style={{
                         "width": "30vw"
-                    }} md="4" controlId="validationCustom02">
+                    }} md="4">
                         <Form.Label className={style.text}>제조사</Form.Label>
                         <Form.Control
                             required
-                            name="제조사"
+                            name="전장/전폭/전고"
                             type="text"
-                            placeholder="제조사"
+                            placeholder="전장/전폭/전고"
                         />
                     </Form.Group>
                 </Col>
@@ -54,9 +54,9 @@ function 함선() {
                 />
             </Form.Group>
             <Row className={style.nextStep}>
+                <Form.Label className={style.text}>가격정보</Form.Label>
                 <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
-                        <Form.Label className={style.text}>판매 위치</Form.Label>
+                    <Form.Group md="4">
                         <Form.Control
                             required
                             name="판매위치"
@@ -66,130 +66,93 @@ function 함선() {
                     </Form.Group>
                 </Col>
                 <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
-                        <Form.Label className={style.text}>사격 모드</Form.Label>
+                    <Form.Group md="4">
                         <Form.Control
                             required
-                            name="사격모드"
+                            name="가격"
                             type="text"
-                            placeholder="사격 모드"
+                            placeholder="가격"
+                        />
+                    </Form.Group>
+                </Col>
+                <Col>
+                    <Form.Group md="4">
+                        <Form.Control
+                            required
+                            name="⍺UEC"
+                            type="text"
+                            placeholder="⍺UEC"
                         />
                     </Form.Group>
                 </Col>
             </Row>
             <Row className={style.nextStep}>
-                <Form.Label className={style.text}>부착물</Form.Label>
+                <Form.Label className={style.text}>중량</Form.Label>
                 <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
+                    <Form.Group md="4">
                         <Form.Control
                             required
-                            name="조준경 부착물"
+                            name="출고중량"
                             type="text"
-                            placeholder="조준경"
+                            placeholder="출고중량"
                         />
                     </Form.Group>
                 </Col>
                 <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
+                    <Form.Group md="4">
                         <Form.Control
                             required
-                            name="총열 부착물"
+                            name="화물용량"
                             type="text"
-                            placeholder="총열"
-                        />
-                    </Form.Group>
-                </Col>
-                <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
-                        <Form.Control
-                            required
-                            name="총열 하부 부착물"
-                            type="text"
-                            placeholder="총열 하부"
+                            placeholder="화물용량"
                         />
                     </Form.Group>
                 </Col>
             </Row>
             <Row className={style.nextStep}>
+                <Form.Label className={style.text}>기타정보</Form.Label>
                 <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
-                        <Form.Label className={style.text}>사이즈</Form.Label>
+                    <Form.Group md="4">
                         <Form.Control
                             required
-                            name="사이즈"
+                            name="구현단계"
                             type="text"
-                            placeholder="사이즈"
+                            placeholder="구현단계"
                         />
                     </Form.Group>
                 </Col>
                 <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
-                        <Form.Label className={style.text}>발 당 데미지</Form.Label>
+                    <Form.Group md="4">
                         <Form.Control
                             required
-                            name="발 당 데미지"
+                            name="함선분류"
                             type="text"
-                            placeholder="발 당 데미지"
-                        />
-                    </Form.Group>
-                </Col>
-            </Row>
-            <Row className={style.nextStep}>
-                <Form.Label className={style.text}>기타 총기 설명</Form.Label>
-                <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
-                        <Form.Control
-                            required
-                            name="연사속도"
-                            type="text"
-                            placeholder="연사속도"
+                            placeholder="함선분류"
                         />
                     </Form.Group>
                 </Col>
                 <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
+                    <Form.Group md="4">
                         <Form.Control
                             required
-                            name="사거리"
+                            name="순항속도"
                             type="text"
-                            placeholder="사거리"
+                            placeholder="순항속도"
                         />
                     </Form.Group>
                 </Col>
                 <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
+                    <Form.Group md="4">
                         <Form.Control
                             required
-                            name="탄속"
+                            name="최소승무원"
                             type="text"
-                            placeholder="탄속"
+                            placeholder="최소승무원"
                         />
                     </Form.Group>
                 </Col>
             </Row>
-            <Row className={style.nextStep}>
-                <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
-                        <Form.Control
-                            required
-                            name="탄수"
-                            type="text"
-                            placeholder="탄 수"
-                        />
-                    </Form.Group>
-                </Col>
-                <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
-                        <Form.Control
-                            required
-                            name="탄약타입"
-                            type="text"
-                            placeholder="탄약 타입"
-                        />
-                    </Form.Group>
-                </Col>
-            </Row>
-            <Form.Group md="4" controlId="validationCustom02" className={style.nextStep}>
+            <Form.Group md="4" className={style.nextStep}>
                 <Form.Label className={style.text}>이미지 링크</Form.Label>
                 <Form.Control
                     required
@@ -198,7 +161,7 @@ function 함선() {
                     placeholder="이미지 링크"
                 />
             </Form.Group>
-            <Form.Group md="4" controlId="validationCustom02" className={style.nextStep}>
+            <Form.Group md="4" className={style.nextStep}>
                 <Form.Label className={style.text}>검색 키워드</Form.Label>
                 <Form.Control
                     required
