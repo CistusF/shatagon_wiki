@@ -7,7 +7,7 @@
 }
 
 .submit {
-    margin-top: 5vh;
+    margin: 5vh;
 }
 
 .center {
@@ -16,6 +16,6 @@
     flex: 1 0;
 }
 
-.nextStep{
+.nextStep {
     margin-top: 2vh;
 }

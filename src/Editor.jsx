@@ -3,8 +3,6 @@ import Footer from './modules/Footer';
 
 import style from './Editor.module.css';
 
-import fetch from 'node-fetch';
-import { useState } from 'react';
 import { Container, Col, Button, Form, FloatingLabel, Row } from 'react-bootstrap';
 
 function Wiki() {
@@ -13,6 +11,7 @@ function Wiki() {
         url.searchParams.forEach((value, key) => {
             let ele = document.getElementsByName(key);
             if (ele.length < 0) return;
+            if (!ele[0]) return;
             ele[0].value = value;
         });
     }
@@ -22,7 +21,7 @@ function Wiki() {
                 <Header />
                 <Container>
                     <Form className={style.form} method="POST" action="/">
-                        <Row>
+                        <Row className={style.nextStep}>
                             <Col>
                                 <Form.Label className={style.text}>이름</Form.Label>
                                 <Form.Group style={{
@@ -61,7 +60,7 @@ function Wiki() {
                                 </Form.Group>
                             </Col>
                         </Row>
-                        <Form.Group md="4" controlId="floatingTextarea2">
+                        <Form.Group md="4" controlId="floatingTextarea2" className={style.nextStep}>
                             <FloatingLabel className={style.text}>설명</FloatingLabel >
                             <Form.Control
                                 required
@@ -70,7 +69,7 @@ function Wiki() {
                                 placeholder="설명"
                             />
                         </Form.Group>
-                        <Row>
+                        <Row className={style.nextStep}>
                             <Col>
                                 <Form.Group md="4" controlId="validationCustom02">
                                     <Form.Label className={style.text}>판매 위치</Form.Label>
@@ -94,13 +93,13 @@ function Wiki() {
                                 </Form.Group>
                             </Col>
                         </Row>
-                        <Row>
+                        <Row className={style.nextStep}>
                             <Form.Label className={style.text}>부착물</Form.Label>
                             <Col>
                                 <Form.Group md="4" controlId="validationCustom02">
                                     <Form.Control
                                         required
-                                        name="조준경"
+                                        name="조준경 부착물"
                                         type="text"
                                         placeholder="조준경"
                                     />
@@ -110,7 +109,7 @@ function Wiki() {
                                 <Form.Group md="4" controlId="validationCustom02">
                                     <Form.Control
                                         required
-                                        name="총열"
+                                        name="총열 부착물"
                                         type="text"
                                         placeholder="총열"
                                     />
@@ -120,14 +119,14 @@ function Wiki() {
                                 <Form.Group md="4" controlId="validationCustom02">
                                     <Form.Control
                                         required
-                                        name="총열하부"
+                                        name="총열 하부 부착물"
                                         type="text"
                                         placeholder="총열 하부"
                                     />
                                 </Form.Group>
                             </Col>
                         </Row>
-                        <Row>
+                        <Row className={style.nextStep}>
                             <Col>
                                 <Form.Group md="4" controlId="validationCustom02">
                                     <Form.Label className={style.text}>사이즈</Form.Label>
@@ -144,14 +143,14 @@ function Wiki() {
                                     <Form.Label className={style.text}>발 당 데미지</Form.Label>
                                     <Form.Control
                                         required
-                                        name="발당데미지"
+                                        name="발 당 데미지"
                                         type="text"
                                         placeholder="발 당 데미지"
                                     />
                                 </Form.Group>
                             </Col>
                         </Row>
-                        <Row>
+                        <Row className={style.nextStep}>
                             <Form.Label className={style.text}>기타 총기 설명</Form.Label>
                             <Col>
                                 <Form.Group md="4" controlId="validationCustom02">
@@ -206,7 +205,7 @@ function Wiki() {
                                 </Form.Group>
                             </Col>
                         </Row>
-                        <Form.Group md="4" controlId="validationCustom02">
+                        <Form.Group md="4" controlId="validationCustom02" className={style.nextStep}>
                             <Form.Label className={style.text}>이미지 링크</Form.Label>
                             <Form.Control
                                 required
@@ -215,7 +214,7 @@ function Wiki() {
                                 placeholder="이미지 링크"
                             />
                         </Form.Group>
-                        <Form.Group md="4" controlId="validationCustom02">
+                        <Form.Group md="4" controlId="validationCustom02" className={style.nextStep}>
                             <Form.Label className={style.text}>검색 키워드</Form.Label>
                             <Form.Control
                                 required
