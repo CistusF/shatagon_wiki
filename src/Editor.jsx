@@ -1,3 +1,5 @@
+import wiki from './data.json';
+
 import Header from './modules/Header';
 import Footer from './modules/Footer';
 
@@ -11,12 +13,16 @@ function Wiki() {
     let url = "";
     window.onload = () => {
         url = new URL(window.location.href);
-        url.searchParams.forEach((value, key) => {
-            let ele = document.getElementsByName(key);
+        let Params = url.searchParams;
+        let name = Params.get("이름");
+        let type = Params.get("type");
+        let data = wiki[type].find(i => i.이름 == name);
+        for (let i in data) {
+            let ele = document.getElementsByName(i);
             if (ele.length < 0) return;
             if (!ele[0]) return;
-            ele[0].value = value;
-        });
+            ele[0].value = data[i];
+        };
     }
 
     const A = () => {
