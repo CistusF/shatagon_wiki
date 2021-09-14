@@ -1,5 +1,5 @@
 import style from "./Editor.module.css";
-import { Container, Col, Button, Form, FloatingLabel, Row } from 'react-bootstrap';
+import { Col, Form, FloatingLabel, Row } from 'react-bootstrap';
 
 function 함선() {
     console.log('Loading')
@@ -207,9 +207,6 @@ function 함선() {
                     placeholder="검색 키워드"
                 />
             </Form.Group>
-            <div className={`${style.center} ${style.submit}`}>
-                <Button type="submit">Submit form</Button>
-            </div>
         </>
     );
 }

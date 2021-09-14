@@ -1,5 +1,5 @@
 import style from "./Editor.module.css";
-import { Col, Button, Form, FloatingLabel, Row } from 'react-bootstrap';
+import { Col, Form, FloatingLabel, Row } from 'react-bootstrap';
 
 function 무기() {
     return (
@@ -69,7 +69,7 @@ function 무기() {
                         <Form.Label className={style.text}>사격 모드</Form.Label>
                         <Form.Control
                             required
-                            name="사격모드"
+                            name="사격 모드"
                             type="text"
                             placeholder="사격 모드"
                         />
@@ -171,7 +171,7 @@ function 무기() {
                     <Form.Group md="4" controlId="validationCustom02">
                         <Form.Control
                             required
-                            name="탄수"
+                            name="탄 수"
                             type="text"
                             placeholder="탄 수"
                         />
@@ -181,7 +181,7 @@ function 무기() {
                     <Form.Group md="4" controlId="validationCustom02">
                         <Form.Control
                             required
-                            name="탄약타입"
+                            name="탄약 타입"
                             type="text"
                             placeholder="탄약 타입"
                         />
@@ -206,9 +206,6 @@ function 무기() {
                     placeholder="검색 키워드"
                 />
             </Form.Group>
-            <div className={`${style.center} ${style.submit}`}>
-                <Button type="submit">Submit form</Button>
-            </div>
         </>
     );
 }

@@ -5,8 +5,7 @@ import 함선 from "./Types/함선";
 import 무기 from "./Types/무기";
 
 import style from './Editor.module.css';
-import { Router, Route } from 'react-router-dom';
-import { ButtonGroup, Container, Dropdown, DropdownButton, DropdownType, SplitButton, Form } from 'react-bootstrap';
+import { Button, Container, Dropdown, DropdownButton, Form } from 'react-bootstrap';
 
 function Wiki() {
     let url = "";
@@ -56,6 +55,9 @@ function Wiki() {
                             }
                             )()
                         }
+                        <div className={`${style.center} ${style.submit}`}>
+                            <Button type="submit">Submit form</Button>
+                        </div>
                     </Form>
                 </Container>
             </div>
