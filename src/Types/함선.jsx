@@ -1,5 +1,5 @@
 import style from "./Editor.module.css";
-import { Col, Form, FloatingLabel, Row } from 'react-bootstrap';
+import { Button, Col, Form, FloatingLabel, Row } from 'react-bootstrap';
 
 function 함선() {
     console.log('Loading')
@@ -10,7 +10,7 @@ function 함선() {
                     <Form.Label className={style.text}>이름</Form.Label>
                     <Form.Group style={{
                         "width": "30vw"
-                    }} md="4" controlId="validationCustom01">
+                    }} md="4">
                         <Form.Control
                             required
                             name="이름"
@@ -44,7 +44,7 @@ function 함선() {
                     </Form.Group>
                 </Col>
             </Row>
-            <Form.Group md="4" controlId="floatingTextarea2" className={style.nextStep}>
+            <Form.Group md="4" className={style.nextStep}>
                 <FloatingLabel className={style.text}>설명</FloatingLabel >
                 <Form.Control
                     required
@@ -170,6 +170,9 @@ function 함선() {
                     placeholder="검색 키워드"
                 />
             </Form.Group>
+            <div className={`${style.center} ${style.submit}`}>
+                <Button type="submit">Submit form</Button>
+            </div>
         </>
     );
 }

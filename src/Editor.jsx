@@ -3,39 +3,49 @@ import wiki from './data.json';
 import Header from './modules/Header';
 import Footer from './modules/Footer';
 
+import { useState, useEffect } from 'react';
+
 import 함선 from "./Types/함선";
 import 무기 from "./Types/무기";
 
 import style from './Editor.module.css';
-import { Button, Container, Dropdown, DropdownButton, Form } from 'react-bootstrap';
+import { Container, Form, FloatingLabel } from 'react-bootstrap';
 
 function Wiki() {
+    const [endPoint, setEndPoint] = useState(null);
+
     let url = "";
     window.onload = () => {
         url = new URL(window.location.href);
         let Params = url.searchParams;
         let name = Params.get("이름");
         let type = Params.get("type");
-        let data = wiki[type].find(i => i.이름 == name);
+        if (!type) return;
+        setEndPoint(type);
+        let data = wiki[type].find(i => i.이름 === name);
         for (let i in data) {
             let ele = document.getElementsByName(i);
             if (ele.length < 0) return;
             if (!ele[0]) return;
             ele[0].value = data[i];
         };
-    }
+    };
+
+    const change = (ele) => {
+        setEndPoint(ele.target.value);
+    };
 
     const A = () => {
         url = new URL(window.location.href);
         let edit = url.searchParams.get("edit");
         if (edit || edit == "true") {
-            return <div class={style.center}>
-                <DropdownButton id="dropdown-basic-button" title="설정">
-                    <Dropdown.Item href="#/action-1">설정</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">인데</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">뭐넣지</Dropdown.Item>
-                </DropdownButton>
-            </div>
+            return <FloatingLabel label="에디터">
+                <Form.Select onChange={change}>
+                    <option>불러올 에디터 템플릿을 골라주세요</option>
+                    <option value="무기">무기</option>
+                    <option value="함선">함선</option>
+                </Form.Select>
+            </FloatingLabel>
         } else {
             return <></>
         }
@@ -46,13 +56,11 @@ function Wiki() {
                 <Header />
                 <A />
                 <Container>
-                    <Form className={style.form} method="POST" action="/">
+                    <Form className={style.form} method="POST" action={`/${endPoint}`}>
                         {
                             (() => {
-                                let query = Object.fromEntries(new URL(window.location.href).searchParams.entries())
-                                if (!query) return;
-                                console.log(query["type"])
-                                switch (query["type"]) {
+                                if (!endPoint) return;
+                                switch (endPoint) {
                                     case "함선":
                                         return <함선 />
                                     case "무기":
@@ -61,9 +69,6 @@ function Wiki() {
                             }
                             )()
                         }
-                        <div className={`${style.center} ${style.submit}`}>
-                            <Button type="submit">Submit form</Button>
-                        </div>
                     </Form>
                 </Container>
             </div>

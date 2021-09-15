@@ -1,5 +1,5 @@
 import style from "./Editor.module.css";
-import { Col, Form, FloatingLabel, Row } from 'react-bootstrap';
+import { Button, Col, Form, FloatingLabel, Row } from 'react-bootstrap';
 
 function 무기() {
     return (
@@ -9,7 +9,7 @@ function 무기() {
                     <Form.Label className={style.text}>이름</Form.Label>
                     <Form.Group style={{
                         "width": "30vw"
-                    }} md="4" controlId="validationCustom01">
+                    }} md="4">
                         <Form.Control
                             required
                             name="이름"
@@ -19,7 +19,7 @@ function 무기() {
                     </Form.Group>
                 </Col>
                 <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
+                    <Form.Group md="4">
                         <Form.Label className={style.text}>종류</Form.Label>
                         <Form.Control
                             required
@@ -32,7 +32,7 @@ function 무기() {
                 <Col>
                     <Form.Group style={{
                         "width": "30vw"
-                    }} md="4" controlId="validationCustom02">
+                    }} md="4">
                         <Form.Label className={style.text}>제조사</Form.Label>
                         <Form.Control
                             required
@@ -43,7 +43,7 @@ function 무기() {
                     </Form.Group>
                 </Col>
             </Row>
-            <Form.Group md="4" controlId="floatingTextarea2" className={style.nextStep}>
+            <Form.Group md="4" className={style.nextStep}>
                 <FloatingLabel className={style.text}>설명</FloatingLabel >
                 <Form.Control
                     required
@@ -54,7 +54,7 @@ function 무기() {
             </Form.Group>
             <Row className={style.nextStep}>
                 <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
+                    <Form.Group md="4">
                         <Form.Label className={style.text}>판매 위치</Form.Label>
                         <Form.Control
                             required
@@ -65,7 +65,7 @@ function 무기() {
                     </Form.Group>
                 </Col>
                 <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
+                    <Form.Group md="4">
                         <Form.Label className={style.text}>사격 모드</Form.Label>
                         <Form.Control
                             required
@@ -79,7 +79,7 @@ function 무기() {
             <Row className={style.nextStep}>
                 <Form.Label className={style.text}>부착물</Form.Label>
                 <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
+                    <Form.Group md="4">
                         <Form.Control
                             required
                             name="조준경 부착물"
@@ -89,7 +89,7 @@ function 무기() {
                     </Form.Group>
                 </Col>
                 <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
+                    <Form.Group md="4">
                         <Form.Control
                             required
                             name="총열 부착물"
@@ -99,7 +99,7 @@ function 무기() {
                     </Form.Group>
                 </Col>
                 <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
+                    <Form.Group md="4">
                         <Form.Control
                             required
                             name="총열 하부 부착물"
@@ -111,7 +111,7 @@ function 무기() {
             </Row>
             <Row className={style.nextStep}>
                 <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
+                    <Form.Group md="4">
                         <Form.Label className={style.text}>사이즈</Form.Label>
                         <Form.Control
                             required
@@ -122,7 +122,7 @@ function 무기() {
                     </Form.Group>
                 </Col>
                 <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
+                    <Form.Group md="4">
                         <Form.Label className={style.text}>발 당 데미지</Form.Label>
                         <Form.Control
                             required
@@ -136,7 +136,7 @@ function 무기() {
             <Row className={style.nextStep}>
                 <Form.Label className={style.text}>기타 총기 설명</Form.Label>
                 <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
+                    <Form.Group md="4">
                         <Form.Control
                             required
                             name="연사속도"
@@ -146,7 +146,7 @@ function 무기() {
                     </Form.Group>
                 </Col>
                 <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
+                    <Form.Group md="4">
                         <Form.Control
                             required
                             name="사거리"
@@ -156,7 +156,7 @@ function 무기() {
                     </Form.Group>
                 </Col>
                 <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
+                    <Form.Group md="4">
                         <Form.Control
                             required
                             name="탄속"
@@ -168,7 +168,7 @@ function 무기() {
             </Row>
             <Row className={style.nextStep}>
                 <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
+                    <Form.Group md="4">
                         <Form.Control
                             required
                             name="탄 수"
@@ -178,7 +178,7 @@ function 무기() {
                     </Form.Group>
                 </Col>
                 <Col>
-                    <Form.Group md="4" controlId="validationCustom02">
+                    <Form.Group md="4">
                         <Form.Control
                             required
                             name="탄약 타입"
@@ -188,7 +188,7 @@ function 무기() {
                     </Form.Group>
                 </Col>
             </Row>
-            <Form.Group md="4" controlId="validationCustom02" className={style.nextStep}>
+            <Form.Group md="4" className={style.nextStep}>
                 <Form.Label className={style.text}>이미지 링크</Form.Label>
                 <Form.Control
                     required
@@ -197,7 +197,7 @@ function 무기() {
                     placeholder="이미지 링크"
                 />
             </Form.Group>
-            <Form.Group md="4" controlId="validationCustom02" className={style.nextStep}>
+            <Form.Group md="4" className={style.nextStep}>
                 <Form.Label className={style.text}>검색 키워드</Form.Label>
                 <Form.Control
                     required
@@ -206,6 +206,9 @@ function 무기() {
                     placeholder="검색 키워드"
                 />
             </Form.Group>
+            <div className={`${style.center} ${style.submit}`}>
+                <Button type="submit">Submit form</Button>
+            </div>
         </>
     );
 }

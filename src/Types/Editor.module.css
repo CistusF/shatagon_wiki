@@ -5,3 +5,13 @@
 .nextStep {
     margin-top: 2vh;
 }
+
+.submit {
+    margin: 5vh;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    flex: 1 0;
+}
