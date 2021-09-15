@@ -3,13 +3,15 @@ import wiki from './data.json';
 import Header from './modules/Header';
 import Footer from './modules/Footer';
 
-import { useState, useEffect } from 'react';
 
 import 함선 from "./Types/함선";
 import 무기 from "./Types/무기";
 
 import style from './Editor.module.css';
 import { Container, Form, FloatingLabel } from 'react-bootstrap';
+
+import { useState } from 'react';
+import getCookieValue from './getCookieValue';
 
 function Wiki() {
     const [endPoint, setEndPoint] = useState(null);
@@ -50,6 +52,9 @@ function Wiki() {
             return <></>
         }
     }
+
+    if (!getCookieValue("UserData")) return window.location.href = "/";
+    
     return (
         <>
             <div className="Main">

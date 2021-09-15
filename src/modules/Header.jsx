@@ -34,7 +34,7 @@ function Header() {
                             <Link to="/" className="nav-link">Home</Link>
                             {
                                 getCookieValue("UserData") ?
-                                    <Link to="/test" className="nav-link">Wiki</Link>
+                                    <Link to="/wiki" className="nav-link">Wiki</Link>
                                     :
                                     <></>
                             }

@@ -71,6 +71,16 @@ app.use(async (req, res, next) => {
     next();
 });
 
+app.post("/submit", (req, res) => {
+    if (!req.body || !req.body.type) return res.status(404).end("Invaild type");
+    switch (req.body.type) {
+        case "무기":
+            return res.status(200).redirect("/test");
+        default:
+            return res.status(404).end("Invaild type");
+    }
+});
+
 app.get("/login", (req, res) => {
     res.redirect("https://discord.com/api/oauth2/authorize?client_id=859326338040463400&redirect_uri=http%3A%2F%2Flocalhost%2Fcallback&response_type=code&scope=identify");
 });

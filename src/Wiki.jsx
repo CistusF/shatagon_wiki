@@ -6,10 +6,11 @@ import style from './Wiki.module.css';
 import wiki from './data.json';
 
 import { useState } from 'react';
-import { Button, ButtonGroup, Container, FormControl, Table, InputGroup } from 'react-bootstrap';
+import { Button, ButtonGroup, FormControl, Table, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import getCookieValue from './getCookieValue';
 
 function Wiki() {
     const [t, setType] = useState(null);
@@ -49,6 +50,7 @@ function Wiki() {
         });
         document.getElementById("body").innerHTML = data;
     }
+    if (!getCookieValue("UserData")) return window.location.href = "/";
     return (
         <>
             <div className="Main">
