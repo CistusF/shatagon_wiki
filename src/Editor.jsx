@@ -14,40 +14,44 @@ function Editor() {
     const [handler] = useState(null);
     const [endPoint, setEndPoint] = useState("불러올 에디터 템플릿을 골라주세요");
 
-    useEffect(async () => {
-        try {
-            let url = "";
-            url = new URL(window.location.href);
-            let Params = url.searchParams;
-            let name = Params.get("이름");
-            let type = Params.get("type");
-            if (!type || !name || !type) return;
-            setEndPoint(type);
-            const edit = () => {
-                let ele;
-                for (let i in wikiData) {
-                    if (i !== "_id") {
-                        ele = document.getElementsByName(i)
-                        if (ele.length < 0) return
-                        if (!ele[0]) return
-                        ele[0].value = wikiData[i];
-                    }
+    useEffect(() => {
+        (async () => {
+            try {
+                let url = "";
+                url = new URL(window.location.href);
+                let Params = url.searchParams;
+                let name = Params.get("이름");
+                let type = Params.get("type");
+                if (!type || !name || !type) return;
+                setEndPoint(type);
+                const edit = () => {
+                    let ele;
+                    for (let i in wikiData) {
+                        if (i !== "_id") {
+                            ele = document.getElementsByName(i)
+                            if (ele.length < 0) return
+                            if (!ele[0]) return
+                            if (i === "이름")
+                                ele[0].disabled = true;
+                            ele[0].value = wikiData[i];
+                        }
+                    };
+                }
+                let data = await fetch('/callData', { method: 'POST' });
+                if (!data) return window.location.href = "/";
+                data = await data.json();
+                let wikiData = data[type].find(i => i.이름 === name);
+                if (document.readyState === "complete") {
+                    edit();
+                } else {
+                    document.addEventListener("load", edit());
+                    return document.removeEventListener("load", edit());
                 };
-            }
-            let data = await fetch('/callData', { method: 'POST' });
-            if (!data) return window.location.href = "/";
-            data = await data.json();
-            let wikiData = data[type].find(i => i.이름 === name);
-            if (document.readyState === "complete") {
-                edit();
-            } else {
-                document.addEventListener("load", edit());
-                return document.removeEventListener("load", edit());
+            } catch (e) {
+                console.log(e)
+                window.location.href = "/";
             };
-        } catch (e) {
-            console.log(e)
-            window.location.href = "/";
-        };
+        })();
     }, [handler]);
 
 
@@ -59,7 +63,7 @@ function Editor() {
         let url = "";
         url = new URL(window.location.href);
         let edit = url.searchParams.get("edit");
-        if (edit || edit == "true") {
+        if (edit || edit === "true") {
             return <>
                 <FloatingLabel label="에디터">
                     <Form.Select name="type" onChange={change}>

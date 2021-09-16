@@ -6,7 +6,7 @@ import style from './Wiki.module.css';
 import { useState, useEffect } from 'react';
 import { Alert, Button, ButtonGroup, FormControl, Table, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
@@ -15,17 +15,19 @@ function Wiki() {
     const [wiki, setWiki] = useState(null);
     const [view, setView] = useState(false);
 
-    useEffect(async () => {
-        try {
-            if (wiki) return;
-            let data = await fetch('/callData', { method: 'POST' });
-            if (!data) return window.location.href = "/";
-            data = await data.json();
-            setWiki(data);
-            setView(true);
-        } catch {
-            window.location.href = "/";
-        }
+    useEffect(() => {
+        (async () => {
+            try {
+                if (wiki) return;
+                let data = await fetch('/callData', { method: 'POST' });
+                if (!data) return window.location.href = "/";
+                data = await data.json();
+                setWiki(data);
+                setView(true);
+            } catch {
+                window.location.href = "/";
+            }
+        })();
     }, [wiki]);
 
     const search = () => {

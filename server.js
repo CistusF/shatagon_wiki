@@ -162,7 +162,7 @@ db.on("open", function () {
             client.on("ready", function () {
                 console.log("Bot is Online");
             });
-            client.on("message", function (message) { return __awaiter(void 0, void 0, void 0, function () {
+            client.on("messageCreate", function (message) { return __awaiter(void 0, void 0, void 0, function () {
                 var args, command, data, _a, _b, _i, i, models, d, info, embed, i;
                 return __generator(this, function (_c) {
                     switch (_c.label) {
@@ -187,7 +187,7 @@ db.on("open", function () {
                         case 2:
                             d = _c.sent();
                             for (i in d) {
-                                data.push(d[i]);
+                                data.push(d[i].toJSON());
                             }
                             ;
                             _c.label = 3;
@@ -196,25 +196,31 @@ db.on("open", function () {
                             return [3 /*break*/, 1];
                         case 4:
                             ;
-                            info = data.find(function (i) { return i.이름.toLowerCase() === command; });
+                            info = data.find(function (i) { return i.검색키워드.toLowerCase().trim().split(",").includes(command.toLowerCase()); });
                             if (info) {
                                 embed = new discord_js_1.MessageEmbed({
                                     title: info.이름,
                                     description: info.설명,
+                                    color: "AQUA",
+                                    author: {
+                                        name: message.author.tag,
+                                        iconURL: message.author.displayAvatarURL()
+                                    },
                                     footer: {
                                         "text": "created by Cistus / Wiki from Shatagon Discord"
                                     }
                                 });
-                                if (info.이미지링크 || info.이미지링크 !== "false") {
+                                if (info.이미지링크 && info.이미지링크.toLowerCase() != "false") {
                                     embed.setImage(info.이미지링크);
                                 }
                                 ;
                                 for (i in info) {
-                                    if (!["_id", "createdAt", "updatedAt", "이름", "설명", "이미지"].includes(i)) {
+                                    if (!["_id", "createdAt", "updatedAt", "이름", "설명", "이미지링크", "__v"].includes(i)) {
                                         embed.addField(i, info[i], true);
                                     }
                                 }
                                 ;
+                                message.reply({ embeds: [embed] });
                             }
                             ;
                             return [2 /*return*/];
