@@ -1,10 +1,10 @@
 {
     "clientId": "DiscordBotClientId",
     "clientSecret": "DiscordBotClientSecret",
-    "password": "password",
-    "secret": "secret",
-    "token": "DiscordBotToken",
-    "Editor": [
+    "editor": [
         "editor_userId"
-    ]
+    ],
+    "host": "localhost",
+    "secret": "secret",
+    "token": "DiscordBotToken"
 }

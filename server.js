@@ -46,7 +46,7 @@ var moment_timezone_1 = __importDefault(require("moment-timezone"));
 var mongoose_1 = require("mongoose");
 var discord_js_1 = require("discord.js");
 var app = express_1.default();
-var _a = require('./config'), clientId = _a.clientId, clientSecret = _a.clientSecret, editor = _a.editor, secret = _a.secret, token = _a.token;
+var _a = require('./config'), clientId = _a.clientId, clientSecret = _a.clientSecret, editor = _a.editor, host = _a.host, secret = _a.secret, token = _a.token;
 var db = mongoose_1.connection;
 var schemaList = {
     "함선": {
@@ -288,7 +288,7 @@ var oauthRequest = function (token, type, req, res) { return __awaiter(void 0, v
                             client_secret: clientSecret,
                             code: token,
                             refresh_token: token,
-                            redirect_uri: "http://localhost/callback",
+                            redirect_uri: "http://" + host + "/callback",
                             grant_type: type,
                         }),
                         headers: {
@@ -447,7 +447,7 @@ app.post("/submit", function (req, res) { return __awaiter(void 0, void 0, void 
     });
 }); });
 app.get("/login", function (req, res) {
-    res.redirect("https://discord.com/api/oauth2/authorize?client_id=859326338040463400&redirect_uri=http%3A%2F%2Flocalhost%2Fcallback&response_type=code&scope=identify");
+    res.redirect("https://discord.com/api/oauth2/authorize?client_id=859326338040463400&redirect_uri=http%3A%2F%2F" + host + "%2Fcallback&response_type=code&scope=identify");
 });
 app.get("/callback", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var code, error_1;
