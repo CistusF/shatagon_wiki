@@ -6,7 +6,7 @@ import style from './Wiki.module.css';
 import { useState, useEffect } from 'react';
 import { Alert, Button, ButtonGroup, FormControl, Table, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
@@ -14,7 +14,7 @@ function Wiki() {
     const [t, setType] = useState(null);
     const [wiki, setWiki] = useState(null);
     const [view, setView] = useState(false);
-    
+
     useEffect(async () => {
         try {
             if (wiki) return;
@@ -38,7 +38,14 @@ function Wiki() {
                 <td>${j.검색키워드}</td>
                 <td style="text-align: center">
                     <a href="/editor?type=${t}&edit=true&이름=${j.이름}">
-                        <svg aria-hidden="true" focusable="true" data-prefix="fas" data-icon="pen" class="svg-inline--fa fa-pen fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M290.74 93.24l128.02 128.02-277.99 277.99-114.14 12.6C11.35 513.54-1.56 500.62.14 485.34l12.7-114.22 277.9-277.88zm207.2-19.06l-60.11-60.11c-18.75-18.75-49.16-18.75-67.91 0l-56.55 56.55 128.02 128.02 56.55-56.55c18.75-18.76 18.75-49.16 0-67.91z"></path></svg>
+                        <svg aria-hidden="true" focusable="true" data-prefix="fas" data-icon="pen" class="svg-inline--fa fa-pen fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M290.74 93.24l128.02 128.02-277.99 277.99-114.14 12.6C11.35 513.54-1.56 500.62.14 485.34l12.7-114.22 277.9-277.88zm207.2-19.06l-60.11-60.11c-18.75-18.75-49.16-18.75-67.91 0l-56.55 56.55 128.02 128.02 56.55-56.55c18.75-18.76 18.75-49.16 0-67.91z"/></svg>
+                    </a>
+                </td>
+                <td style="text-align: center">
+                    <a href="/delete?type=${t}&이름=${j.이름}">
+                        <svg aria-hidden="true" focusable="true" data-prefix="fas" data-icon="trash" class="svg-inline--fa fa-trash fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path fill="currentColor" d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"/>
+                        </svg>
                     </a>
                 </td>
             </tr>
@@ -58,6 +65,13 @@ function Wiki() {
                 <td style="text-align: center">
                     <a href="/editor?type=${type}&이름=${i.이름}">
                         <svg aria-hidden="true" focusable="true" data-prefix="fas" data-icon="pen" class="svg-inline--fa fa-pen fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M290.74 93.24l128.02 128.02-277.99 277.99-114.14 12.6C11.35 513.54-1.56 500.62.14 485.34l12.7-114.22 277.9-277.88zm207.2-19.06l-60.11-60.11c-18.75-18.75-49.16-18.75-67.91 0l-56.55 56.55 128.02 128.02 56.55-56.55c18.75-18.76 18.75-49.16 0-67.91z"></path></svg>
+                    </a>
+                </td>
+                <td style="text-align: center">
+                    <a href="/delete?type=${type}&이름=${i.이름}">
+                        <svg aria-hidden="true" focusable="true" data-prefix="fas" data-icon="trash" class="svg-inline--fa fa-trash fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path fill="currentColor" d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"/>
+                        </svg>
                     </a>
                 </td>
             </tr>
@@ -106,13 +120,14 @@ function Wiki() {
                         <tr>
                             <th>이름</th>
                             <th>검색키워드</th>
-                            <th style={{
-                                "textAlign": "center"
-                            }}>
+                            <th style={{ textAlign: "center" }}>
                                 <Link to="/editor?edit=false">
                                     <FontAwesomeIcon icon={faPen} />
                                 </Link>
                             </th>
+                            <td style={{ textAlign: "center" }}>
+                                삭제
+                            </td>
                         </tr>
                     </thead>
                     <tbody id="body">

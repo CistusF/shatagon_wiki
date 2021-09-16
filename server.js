@@ -43,19 +43,10 @@ var express_1 = __importDefault(require("express"));
 var express_session_1 = __importDefault(require("express-session"));
 var node_fetch_1 = __importDefault(require("node-fetch"));
 var mongoose_1 = require("mongoose");
+var discord_js_1 = require("discord.js");
+var app = express_1.default();
+var _a = require('./config'), clientId = _a.clientId, clientSecret = _a.clientSecret, editor = _a.editor, secret = _a.secret, token = _a.token;
 var db = mongoose_1.connection;
-mongoose_1.connect('mongodb://localhost:27017/shatagonWiki').catch(function (err) {
-    throw new Error(err);
-});
-db.on("open", function () {
-    app.listen(80, function () {
-        console.log("server listening on port 80");
-    });
-    console.log("DB is connected");
-});
-db.on("error", function (err) {
-    throw new Error(err);
-});
 var schemaList = {
     "함선": {
         "이름": { type: String, required: true, unique: true },
@@ -159,8 +150,86 @@ for (var i in schemaList) {
     });
 }
 ;
-var app = express_1.default();
-var _a = require('./config'), clientId = _a.clientId, clientSecret = _a.clientSecret, secret = _a.secret, Editor = _a.Editor;
+mongoose_1.connect('mongodb://localhost:27017/shatagonWiki').catch(function (err) {
+    throw new Error(err);
+});
+db.on("open", function () {
+    app.listen(80, function () { return __awaiter(void 0, void 0, void 0, function () {
+        var client, data, _a, _b, _i, i, models, d;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    console.log("server listening on port 80");
+                    client = new discord_js_1.Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS"], partials: ["CHANNEL", "MESSAGE", "GUILD_MEMBER"] });
+                    data = [];
+                    _a = [];
+                    for (_b in schemas)
+                        _a.push(_b);
+                    _i = 0;
+                    _c.label = 1;
+                case 1:
+                    if (!(_i < _a.length)) return [3 /*break*/, 4];
+                    i = _a[_i];
+                    models = mongoose_1.model(i, schemas[i]);
+                    return [4 /*yield*/, models.find({})];
+                case 2:
+                    d = _c.sent();
+                    for (i in d) {
+                        data.push(d[i]);
+                    }
+                    ;
+                    _c.label = 3;
+                case 3:
+                    _i++;
+                    return [3 /*break*/, 1];
+                case 4:
+                    ;
+                    client.on("ready", function () {
+                        console.log("Bot is Online");
+                    });
+                    client.on("message", function (message) { return __awaiter(void 0, void 0, void 0, function () {
+                        var args, command, info, embed, i;
+                        return __generator(this, function (_a) {
+                            if (message.author.bot || !message.content.startsWith("!"))
+                                return [2 /*return*/];
+                            args = message.content.slice(1).trim().split(" ");
+                            command = args.shift().toLowerCase();
+                            if (!command)
+                                return [2 /*return*/];
+                            info = data.find(function (i) { return i.이름.toLowerCase() === command; });
+                            if (info) {
+                                embed = new discord_js_1.MessageEmbed({
+                                    title: info.이름,
+                                    description: info.설명,
+                                    footer: {
+                                        "text": "created by Cistus / Wiki from Shatagon Discord"
+                                    }
+                                });
+                                if (info.이미지링크 || info.이미지링크 !== "false") {
+                                    embed.setImage(info.이미지링크);
+                                }
+                                ;
+                                for (i in info) {
+                                    if (!["_id", "createdAt", "updatedAt", "이름", "설명", "이미지"].includes(i)) {
+                                        embed.addField(i, info[i], true);
+                                    }
+                                }
+                                ;
+                            }
+                            ;
+                            return [2 /*return*/];
+                        });
+                    }); });
+                    client.login(token);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    console.log("DB is connected");
+});
+db.on("error", function (err) {
+    throw new Error(err);
+});
 app.use(express_session_1.default({
     secret: secret,
     resave: false,
@@ -254,7 +323,7 @@ app.post("/callData", function (req, res) { return __awaiter(void 0, void 0, voi
     return __generator(this, function (_e) {
         switch (_e.label) {
             case 0:
-                if (!req.session || !req.session.token || !req.session.data || !Editor.includes(req.session.data.id))
+                if (!req.session || !req.session.token || !req.session.data || !editor.includes(req.session.data.id))
                     return [2 /*return*/, res.status(404).end(null)];
                 data = {};
                 _a = [];
@@ -281,12 +350,30 @@ app.post("/callData", function (req, res) { return __awaiter(void 0, void 0, voi
         }
     });
 }); });
+app.get("/delete", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var schema;
+    return __generator(this, function (_a) {
+        if (!req.session || !req.session.token || !req.session.data || !editor.includes(req.session.data.id))
+            return [2 /*return*/, res.status(404).end(null)];
+        if (!req.query || !req.query.type)
+            return [2 /*return*/, res.status(404).end("Invaild type")];
+        if (!schemaList["" + req.query.type])
+            return [2 /*return*/, res.status(404).end("Invaild schema")];
+        schema = mongoose_1.model("" + req.query.type, schemas["" + req.query.type]);
+        schema.findOneAndDelete({ "이름": req.query.이름 }).then(function () {
+            return res.status(200).redirect("/wiki");
+        }).catch(function (err) {
+            return res.status(500).end(err);
+        });
+        return [2 /*return*/];
+    });
+}); });
 app.post("/submit", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var info, i, schema, handler, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                if (!req.session || !req.session.token || !req.session.data || !Editor.includes(req.session.data.id))
+                if (!req.session || !req.session.token || !req.session.data || !editor.includes(req.session.data.id))
                     return [2 /*return*/, res.status(404).end(null)];
                 if (!req.body || !req.body.type)
                     return [2 /*return*/, res.status(404).end("Invaild type")];
@@ -299,27 +386,26 @@ app.post("/submit", function (req, res) { return __awaiter(void 0, void 0, void 
                 }
                 ;
                 schema = mongoose_1.model(req.body.type, schemas[req.body.type]);
-                if (!(req.body.edit === "true")) return [3 /*break*/, 2];
-                return [4 /*yield*/, schema.update({ "이름": req.body.이름 }, info, { "multi": true }).then(function () {
-                        return res.status(200).redirect("/wiki");
-                    }).catch(function (err) {
-                        return res.status(500).end(err);
-                    })];
-            case 1:
-                _a.sent();
-                return [3 /*break*/, 5];
-            case 2: return [4 /*yield*/, schema.find({ "이름": req.body.이름 }).exec()];
-            case 3:
+                if (!(req.body.edit === "true")) return [3 /*break*/, 1];
+                schema.update({ "이름": req.body.이름 }, info, { "multi": true }).then(function () {
+                    return res.status(200).redirect("/wiki");
+                }).catch(function (err) {
+                    return res.status(500).end(err);
+                });
+                return [3 /*break*/, 4];
+            case 1: return [4 /*yield*/, schema.find({ "이름": req.body.이름 }).exec()];
+            case 2:
                 handler = _a.sent();
                 if (handler[0])
                     return [2 /*return*/, res.status(500).end("<html><head><meta charset='utf-8'></head><body>" + req.body.이름 + " is already created</body></html>")];
                 data = new schema(info);
                 return [4 /*yield*/, data.save()];
-            case 4:
+            case 3:
                 _a.sent();
+                console.log(1);
                 res.status(200).redirect("/wiki");
-                _a.label = 5;
-            case 5:
+                _a.label = 4;
+            case 4:
                 ;
                 return [2 /*return*/];
         }

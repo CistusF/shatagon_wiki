@@ -3,5 +3,8 @@
     "clientSecret": "DiscordBotClientSecret",
     "password": "password",
     "secret": "secret",
-    "Editor": ["editor_userId"]
+    "token": "DiscordBotToken",
+    "Editor": [
+        "editor_userId"
+    ]
 }

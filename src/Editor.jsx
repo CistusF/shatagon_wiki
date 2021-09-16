@@ -68,7 +68,7 @@ function Editor() {
                         <option value="함선">함선</option>
                     </Form.Select>
                 </FloatingLabel>
-                <input type="text" name="edit" value="true" style={{
+                <input type="text" name="edit" value="false" style={{
                     "visibility": "hidden",
                     "maxHeight": "0px"
                 }} />
