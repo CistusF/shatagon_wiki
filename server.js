@@ -155,47 +155,47 @@ mongoose_1.connect('mongodb://localhost:27017/shatagonWiki').catch(function (err
 });
 db.on("open", function () {
     app.listen(80, function () { return __awaiter(void 0, void 0, void 0, function () {
-        var client, data, _a, _b, _i, i, models, d;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
-                case 0:
-                    console.log("server listening on port 80");
-                    client = new discord_js_1.Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS"], partials: ["CHANNEL", "MESSAGE", "GUILD_MEMBER"] });
-                    data = [];
-                    _a = [];
-                    for (_b in schemas)
-                        _a.push(_b);
-                    _i = 0;
-                    _c.label = 1;
-                case 1:
-                    if (!(_i < _a.length)) return [3 /*break*/, 4];
-                    i = _a[_i];
-                    models = mongoose_1.model(i, schemas[i]);
-                    return [4 /*yield*/, models.find({})];
-                case 2:
-                    d = _c.sent();
-                    for (i in d) {
-                        data.push(d[i]);
-                    }
-                    ;
-                    _c.label = 3;
-                case 3:
-                    _i++;
-                    return [3 /*break*/, 1];
-                case 4:
-                    ;
-                    client.on("ready", function () {
-                        console.log("Bot is Online");
-                    });
-                    client.on("message", function (message) { return __awaiter(void 0, void 0, void 0, function () {
-                        var args, command, info, embed, i;
-                        return __generator(this, function (_a) {
+        var client;
+        return __generator(this, function (_a) {
+            console.log("server listening on port 80");
+            client = new discord_js_1.Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS"], partials: ["CHANNEL", "MESSAGE", "GUILD_MEMBER"] });
+            client.on("ready", function () {
+                console.log("Bot is Online");
+            });
+            client.on("message", function (message) { return __awaiter(void 0, void 0, void 0, function () {
+                var args, command, data, _a, _b, _i, i, models, d, info, embed, i;
+                return __generator(this, function (_c) {
+                    switch (_c.label) {
+                        case 0:
                             if (message.author.bot || !message.content.startsWith("!"))
                                 return [2 /*return*/];
                             args = message.content.slice(1).trim().split(" ");
                             command = args.shift().toLowerCase();
                             if (!command)
                                 return [2 /*return*/];
+                            data = [];
+                            _a = [];
+                            for (_b in schemas)
+                                _a.push(_b);
+                            _i = 0;
+                            _c.label = 1;
+                        case 1:
+                            if (!(_i < _a.length)) return [3 /*break*/, 4];
+                            i = _a[_i];
+                            models = mongoose_1.model(i, schemas[i]);
+                            return [4 /*yield*/, models.find({})];
+                        case 2:
+                            d = _c.sent();
+                            for (i in d) {
+                                data.push(d[i]);
+                            }
+                            ;
+                            _c.label = 3;
+                        case 3:
+                            _i++;
+                            return [3 /*break*/, 1];
+                        case 4:
+                            ;
                             info = data.find(function (i) { return i.이름.toLowerCase() === command; });
                             if (info) {
                                 embed = new discord_js_1.MessageEmbed({
@@ -218,11 +218,11 @@ db.on("open", function () {
                             }
                             ;
                             return [2 /*return*/];
-                        });
-                    }); });
-                    client.login(token);
-                    return [2 /*return*/];
-            }
+                    }
+                });
+            }); });
+            client.login(token);
+            return [2 /*return*/];
         });
     }); });
     console.log("DB is connected");
