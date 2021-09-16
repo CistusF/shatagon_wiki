@@ -42,6 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var express_session_1 = __importDefault(require("express-session"));
 var node_fetch_1 = __importDefault(require("node-fetch"));
+var moment_timezone_1 = __importDefault(require("moment-timezone"));
 var mongoose_1 = require("mongoose");
 var discord_js_1 = require("discord.js");
 var app = express_1.default();
@@ -163,7 +164,7 @@ db.on("open", function () {
                 console.log("Bot is Online");
             });
             client.on("messageCreate", function (message) { return __awaiter(void 0, void 0, void 0, function () {
-                var args, command, data, _a, _b, _i, i, models, d, info, embed, i;
+                var args, command, data, _a, _b, _i, i, models, d, info, btn, embed, i;
                 return __generator(this, function (_c) {
                     switch (_c.label) {
                         case 0:
@@ -198,6 +199,11 @@ db.on("open", function () {
                             ;
                             info = data.find(function (i) { return i.검색키워드.toLowerCase().trim().split(",").includes(command.toLowerCase()); });
                             if (info) {
+                                btn = new discord_js_1.MessageActionRow().addComponents(new discord_js_1.MessageButton({
+                                    label: "삭제하기",
+                                    style: "DANGER",
+                                    customId: "delete " + message.author.id
+                                }));
                                 embed = new discord_js_1.MessageEmbed({
                                     title: info.이름,
                                     description: info.설명,
@@ -220,13 +226,37 @@ db.on("open", function () {
                                     }
                                 }
                                 ;
-                                message.reply({ embeds: [embed] });
+                                embed.addFields({
+                                    "name": "생성일",
+                                    "value": moment_timezone_1.default(info.createdAt).tz("Asia/Seoul").format("YYYY-MM-DD / HH:mm:ss")
+                                }, {
+                                    "name": "마지막 수정일",
+                                    "value": moment_timezone_1.default(info.updatedAt).tz("Asia/Seoul").format("YYYY-MM-DD / HH:mm:ss")
+                                });
+                                message.reply({ embeds: [embed], components: [btn] });
                             }
                             ;
                             return [2 /*return*/];
                     }
                 });
             }); });
+            client.on("interactionCreate", function (interaction) {
+                var _a;
+                if (interaction.isButton()) {
+                    if (interaction.customId.startsWith("delete")) {
+                        var userId = interaction.customId.split(" ")[1];
+                        if (!userId)
+                            return;
+                        if (interaction.user.id !== userId)
+                            return interaction.reply({ content: "당신은 이 메세지 주인이 아닙니다.", ephemeral: true });
+                        (_a = interaction.channel) === null || _a === void 0 ? void 0 : _a.messages.fetch(interaction.message.id).then(function (m) {
+                            if (m.deletable)
+                                return m.delete();
+                        });
+                    }
+                }
+                ;
+            });
             client.login(token);
             return [2 /*return*/];
         });
@@ -408,7 +438,6 @@ app.post("/submit", function (req, res) { return __awaiter(void 0, void 0, void 
                 return [4 /*yield*/, data.save()];
             case 3:
                 _a.sent();
-                console.log(1);
                 res.status(200).redirect("/wiki");
                 _a.label = 4;
             case 4:
