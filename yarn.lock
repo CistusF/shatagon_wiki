@@ -1925,6 +1925,13 @@
   "resolved" "https://registry.npmjs.org/@types/minimatch/-/minimatch-3.0.3.tgz"
   "version" "3.0.3"
 
+"@types/mongoose@^5.11.97":
+  "integrity" "sha512-cqwOVYT3qXyLiGw7ueU2kX9noE8DPGRY6z8eUxudhXY8NZ7DMKYAxyZkLSevGfhCX3dO/AoX5/SO9lAzfjon0Q=="
+  "resolved" "https://registry.npmjs.org/@types/mongoose/-/mongoose-5.11.97.tgz"
+  "version" "5.11.97"
+  dependencies:
+    "mongoose" "*"
+
 "@types/node-fetch@^2.5.12":
   "integrity" "sha512-MKgC4dlq4kKNa/mYrwpKfzQMB5X3ee5U6fSprkKpToBqBmX4nFZL9cW5jl6sWn+xpRJ7ypWh2yyqqr8UUCstSw=="
   "resolved" "https://registry.npmjs.org/@types/node-fetch/-/node-fetch-2.5.12.tgz"
@@ -7797,7 +7804,7 @@
   optionalDependencies:
     "saslprep" "^1.0.0"
 
-"mongoose@^6.0.5":
+"mongoose@*", "mongoose@^6.0.5":
   "integrity" "sha512-1MoG52oosjEK8z45DHQVbakP6DJG1sbQI/ZASBW8sZRV+rCaG/pC3L3wWjrsiped/2+uhvanWM9C89F2n6bQ3w=="
   "resolved" "https://registry.npmjs.org/mongoose/-/mongoose-6.0.5.tgz"
   "version" "6.0.5"

@@ -3,17 +3,31 @@ import Footer from './modules/Footer';
 
 import style from './Wiki.module.css';
 
-import wiki from './data.json';
-
-import { useState } from 'react';
-import { Button, ButtonGroup, FormControl, Table, InputGroup } from 'react-bootstrap';
+import { useState, useEffect } from 'react';
+import { Alert, Button, ButtonGroup, FormControl, Table, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { faPen } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import getCookieValue from './getCookieValue';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 function Wiki() {
     const [t, setType] = useState(null);
+    const [wiki, setWiki] = useState(null);
+    const [view, setView] = useState(false);
+    
+    useEffect(async () => {
+        try {
+            if (wiki) return;
+            let data = await fetch('/callData', { method: 'POST' });
+            if (!data) return window.location.href = "/";
+            data = await data.json();
+            setWiki(data);
+            setView(true);
+        } catch {
+            window.location.href = "/";
+        }
+    }, [wiki]);
+
     const search = () => {
         let data = "";
         let a = document.getElementById("searchBar").value;
@@ -33,6 +47,7 @@ function Wiki() {
         document.getElementById("body").innerHTML = data;
     };
     const load = (type) => {
+        if (!wiki) return window.location.href = "/";
         setType(type)
         let data = "";
         wiki[type].forEach(i => {
@@ -50,11 +65,22 @@ function Wiki() {
         });
         document.getElementById("body").innerHTML = data;
     }
-    if (!getCookieValue("UserData")) return window.location.href = "/";
+    const Handel = () => {
+        if (view) {
+            return <Alert key="2" variant="success" onClose={() => setView(false)} dismissible>
+                <Alert.Heading>성공!</Alert.Heading>
+                위키 정보를 불러왔습니다.
+            </Alert>
+        } else {
+            return <></>
+        }
+    }
+
     return (
         <>
             <div className="Main">
                 <Header />
+                <Handel />
                 <ButtonGroup className={style.center} aria-label="First group">
                     <Button variant="secondary" onClick={() => load("무기")}>무기</Button>
                     <Button variant="secondary" onClick={() => load("부품")}>부품</Button>

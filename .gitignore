@@ -2,3 +2,5 @@
 /build
 config.json
 .DS_Store
+data.js
+data.json

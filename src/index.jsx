@@ -16,6 +16,7 @@ ReactDOM.render(
         <Route exact path="/" component={App} />
         <Route exact path="/wiki" component={Wiki} />
         <Route exact path="/editor" component={Editor} />
+        <Route path="*" component={Wiki} />
       </Switch>
     </Router>
   </React.StrictMode>,

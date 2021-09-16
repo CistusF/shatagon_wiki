@@ -42,8 +42,125 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var express_session_1 = __importDefault(require("express-session"));
 var node_fetch_1 = __importDefault(require("node-fetch"));
+var mongoose_1 = require("mongoose");
+var db = mongoose_1.connection;
+mongoose_1.connect('mongodb://localhost:27017/shatagonWiki').catch(function (err) {
+    throw new Error(err);
+});
+db.on("open", function () {
+    app.listen(80, function () {
+        console.log("server listening on port 80");
+    });
+    console.log("DB is connected");
+});
+db.on("error", function (err) {
+    throw new Error(err);
+});
+var schemaList = {
+    "함선": {
+        "이름": { type: String, required: true, unique: true },
+        "설명": { type: String, required: true },
+        "함선제원": { type: String, required: true },
+        "전장/전폭/전고": { type: String, required: true },
+        "최소승무원": { type: String, required: true },
+        "구현단계": { type: String, required: true },
+        "함선분류": { type: String, required: true },
+        "순항속도": { type: String, required: true },
+        "출고중량": { type: String, required: true },
+        "화물용량": { type: String, required: true },
+        "판매위치": { type: String, required: true },
+        "⍺UEC": { type: String, required: true },
+        "가격": { type: String, required: true },
+        "이미지링크": { type: String, required: true },
+        "검색키워드": { type: String, required: true }
+    },
+    "무기": {
+        "이름": { type: String, required: true, unique: true },
+        "설명": { type: String, required: true },
+        "제조사": { type: String, required: true },
+        "종류": { type: String, required: true },
+        "사이즈": { type: String, required: true },
+        "조준경 부착물": { type: String, required: true },
+        "총열 부착물": { type: String, required: true },
+        "총열 하부 부착물": { type: String, required: true },
+        "발 당 데미지": { type: String, required: true },
+        "사격 모드": { type: String, required: true },
+        "탄약 타입": { type: String, required: true },
+        "연사속도": { type: String, required: true },
+        "사거리": { type: String, required: true },
+        "탄속": { type: String, required: true },
+        "탄 수": { type: String, required: true },
+        "판매위치": { type: String, required: true },
+        "이미지링크": { type: String, required: true },
+        "검색키워드": { type: String, required: true },
+    },
+    "부품": {
+        "이름": { type: String, required: true, unique: true },
+        "설명": { type: String, required: true },
+        "제조사": { type: String, required: true },
+        "종류": { type: String, required: true },
+        "사이즈": { type: String, required: true },
+        "등급": { type: String, required: true },
+        "클래스": { type: String, required: true },
+        "성능": { type: String, required: true },
+        "EM": { type: String, required: true },
+        "IR": { type: String, required: true },
+        "판매 위치": { type: String, required: true },
+        "이미지링크": { type: String, required: true },
+        "검색키워드": { type: String, required: true }
+    },
+    "행성계": {
+        "이름": { type: String, required: true, unique: true },
+        "설명": { type: String, required: true },
+        "소속": { type: String, required: true },
+        "행성": { type: String, required: true },
+        "점프 포인트": { type: String, required: true },
+        "이미지링크": { type: String, required: true },
+        "검색키워드": { type: String, required: true }
+    },
+    "세력": {
+        "이름": { type: String, required: true, unique: true },
+        "설명": { type: String, required: true },
+        "성향": { type: String, required: true },
+        "주 종족": { type: String, required: true },
+        "주요 거점": { type: String, required: true },
+        "이미지링크": { type: String, required: true },
+        "검색키워드": { type: String, required: true }
+    },
+    "화물": {
+        "이름": { type: String, required: true, unique: true },
+        "설명": { type: String, required: true },
+        "종류": { type: String, required: true },
+        "부피": { type: String, required: true },
+        "기본 가격": { type: String, required: true },
+        "이미지링크": { type: String, required: true },
+        "검색키워드": { type: String, required: true }
+    },
+    "장비": {
+        "이름": { type: String, required: true, unique: true },
+        "설명": { type: String, required: true },
+        "제조사": { type: String, required: true },
+        "종류": { type: String, required: true },
+        "사이즈": { type: String, required: true },
+        "발 당 대미지": { type: String, required: true },
+        "연사속도": { type: String, required: true },
+        "사거리": { type: String, required: true },
+        "탄속": { type: String, required: true },
+        "탄 수": { type: String, required: true },
+        "판매 위치": { type: String, required: true },
+        "이미지링크": { type: String, required: true },
+        "검색키워드": { type: String, required: true }
+    }
+};
+var schemas = {};
+for (var i in schemaList) {
+    schemas[i] = new mongoose_1.Schema(schemaList[i], {
+        timestamps: true
+    });
+}
+;
 var app = express_1.default();
-var _a = require('./config'), clientId = _a.clientId, clientSecret = _a.clientSecret, password = _a.password, secret = _a.secret;
+var _a = require('./config'), clientId = _a.clientId, clientSecret = _a.clientSecret, secret = _a.secret, Editor = _a.Editor;
 app.use(express_session_1.default({
     secret: secret,
     resave: false,
@@ -51,6 +168,8 @@ app.use(express_session_1.default({
     cookie: { httpOnly: true }
 }));
 app.use(express_1.default.static(__dirname + '/build'));
+app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: false }));
 var oauthRequest = function (token, type, req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var oauthResult, oauthData, userResult, userData, e_1;
     return __generator(this, function (_a) {
@@ -87,6 +206,7 @@ var oauthRequest = function (token, type, req, res) { return __awaiter(void 0, v
                 return [4 /*yield*/, userResult.json()];
             case 4:
                 userData = _a.sent();
+                req.session.data = userData;
                 res.cookie("UserData", JSON.stringify({
                     "Userinfo": {
                         "id": userData.id,
@@ -98,6 +218,9 @@ var oauthRequest = function (token, type, req, res) { return __awaiter(void 0, v
                 return [3 /*break*/, 6];
             case 5:
                 e_1 = _a.sent();
+                req.session.destroy(function (err) {
+                    console.log(err);
+                });
                 res.clearCookie("UserData");
                 return [3 /*break*/, 6];
             case 6: return [2 /*return*/];
@@ -126,6 +249,82 @@ app.use(function (req, res, next) { return __awaiter(void 0, void 0, void 0, fun
         }
     });
 }); });
+app.post("/callData", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, _a, _b, _i, i, models, _c, _d;
+    return __generator(this, function (_e) {
+        switch (_e.label) {
+            case 0:
+                if (!req.session || !req.session.token || !req.session.data || !Editor.includes(req.session.data.id))
+                    return [2 /*return*/, res.status(404).end(null)];
+                data = {};
+                _a = [];
+                for (_b in schemas)
+                    _a.push(_b);
+                _i = 0;
+                _e.label = 1;
+            case 1:
+                if (!(_i < _a.length)) return [3 /*break*/, 4];
+                i = _a[_i];
+                models = mongoose_1.model(i, schemas[i]);
+                _c = data;
+                _d = i;
+                return [4 /*yield*/, models.find({})];
+            case 2:
+                _c[_d] = _e.sent();
+                _e.label = 3;
+            case 3:
+                _i++;
+                return [3 /*break*/, 1];
+            case 4:
+                ;
+                return [2 /*return*/, res.status(200).end(JSON.stringify(data))];
+        }
+    });
+}); });
+app.post("/submit", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var info, i, schema, handler, data;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!req.session || !req.session.token || !req.session.data || !Editor.includes(req.session.data.id))
+                    return [2 /*return*/, res.status(404).end(null)];
+                if (!req.body || !req.body.type)
+                    return [2 /*return*/, res.status(404).end("Invaild type")];
+                if (!schemaList[req.body.type])
+                    return [2 /*return*/, res.status(404).end("Invaild schema")];
+                info = {};
+                for (i in req.body) {
+                    if (!["type", "edit"].includes(i))
+                        info[i] = req.body[i];
+                }
+                ;
+                schema = mongoose_1.model(req.body.type, schemas[req.body.type]);
+                if (!(req.body.edit === "true")) return [3 /*break*/, 2];
+                return [4 /*yield*/, schema.update({ "이름": req.body.이름 }, info, { "multi": true }).then(function () {
+                        return res.status(200).redirect("/wiki");
+                    }).catch(function (err) {
+                        return res.status(500).end(err);
+                    })];
+            case 1:
+                _a.sent();
+                return [3 /*break*/, 5];
+            case 2: return [4 /*yield*/, schema.find({ "이름": req.body.이름 }).exec()];
+            case 3:
+                handler = _a.sent();
+                if (handler[0])
+                    return [2 /*return*/, res.status(500).end("<html><head><meta charset='utf-8'></head><body>" + req.body.이름 + " is already created</body></html>")];
+                data = new schema(info);
+                return [4 /*yield*/, data.save()];
+            case 4:
+                _a.sent();
+                res.status(200).redirect("/wiki");
+                _a.label = 5;
+            case 5:
+                ;
+                return [2 /*return*/];
+        }
+    });
+}); });
 app.get("/login", function (req, res) {
     res.redirect("https://discord.com/api/oauth2/authorize?client_id=859326338040463400&redirect_uri=http%3A%2F%2Flocalhost%2Fcallback&response_type=code&scope=identify");
 });
@@ -141,7 +340,6 @@ app.get("/callback", function (req, res) { return __awaiter(void 0, void 0, void
                 _b.label = 1;
             case 1:
                 _b.trys.push([1, 3, , 4]);
-                console.log(code);
                 return [4 /*yield*/, oauthRequest(code, "authorization_code", req, res)];
             case 2:
                 _b.sent();
@@ -159,4 +357,3 @@ app.get("/callback", function (req, res) { return __awaiter(void 0, void 0, void
 app.get("*", function (req, res) {
     res.sendFile(__dirname + '/build/index.html');
 });
-app.listen(80);

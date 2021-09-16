@@ -2,5 +2,6 @@
     "clientId": "DiscordBotClientId",
     "clientSecret": "DiscordBotClientSecret",
     "password": "password",
-    "secret": "secret"
+    "secret": "secret",
+    "Editor": ["editor_userId"]
 }
