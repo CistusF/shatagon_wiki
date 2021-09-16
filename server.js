@@ -198,7 +198,7 @@ db.on("open", function () {
                         case 4:
                             ;
                             info = data.find(function (i) { return i.검색키워드.toLowerCase().trim().split(",").includes(command.toLowerCase()); });
-                            if (info) {
+                            if (info && message.channelId === "831466114558328832") {
                                 btn = new discord_js_1.MessageActionRow().addComponents(new discord_js_1.MessageButton({
                                     label: "삭제하기",
                                     style: "DANGER",
