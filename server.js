@@ -159,14 +159,17 @@ db.on("open", function () {
         var client;
         return __generator(this, function (_a) {
             console.log("server listening on port 80");
-            client = new discord_js_1.Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS"], partials: ["CHANNEL", "MESSAGE", "GUILD_MEMBER"] });
-            client.on("ready", function () {
+            client = new discord_js_1.Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS"], partials: ["CHANNEL", "MESSAGE", "GUILD_MEMBER", "USER"] });
+            client.once("ready", function () {
+                var _a;
                 console.log("Bot is Online");
+                (_a = client.user) === null || _a === void 0 ? void 0 : _a.setActivity("!help");
             });
             client.on("messageCreate", function (message) { return __awaiter(void 0, void 0, void 0, function () {
-                var args, command, data, _a, _b, _i, i, models, d, info, btn, embed, i;
-                return __generator(this, function (_c) {
-                    switch (_c.label) {
+                var args, command, data, _a, _b, _i, i, models, d, j, json, embed, ment, _loop_1, i, info_1, btn_1, createEmbed_1, page_1, btns, e_1, e;
+                var _c;
+                return __generator(this, function (_d) {
+                    switch (_d.label) {
                         case 0:
                             if (message.author.bot || !message.content.startsWith("!"))
                                 return [2 /*return*/];
@@ -174,66 +177,168 @@ db.on("open", function () {
                             command = args.shift().toLowerCase();
                             if (!command)
                                 return [2 /*return*/];
+                            if (!message.channel.isText())
+                                return [2 /*return*/];
                             data = [];
                             _a = [];
                             for (_b in schemas)
                                 _a.push(_b);
                             _i = 0;
-                            _c.label = 1;
+                            _d.label = 1;
                         case 1:
                             if (!(_i < _a.length)) return [3 /*break*/, 4];
                             i = _a[_i];
                             models = mongoose_1.model(i, schemas[i]);
                             return [4 /*yield*/, models.find({})];
                         case 2:
-                            d = _c.sent();
-                            for (i in d) {
-                                data.push(d[i].toJSON());
+                            d = _d.sent();
+                            for (j in d) {
+                                json = d[j].toJSON();
+                                json.type = i;
+                                data.push(json);
                             }
                             ;
-                            _c.label = 3;
+                            _d.label = 3;
                         case 3:
                             _i++;
                             return [3 /*break*/, 1];
                         case 4:
                             ;
-                            info = data.find(function (i) { return i.검색키워드.toLowerCase().includes(command.toLowerCase()); });
-                            if (info && message.channelId === "831466114558328832") {
-                                btn = new discord_js_1.MessageActionRow().addComponents(new discord_js_1.MessageButton({
-                                    label: "삭제하기",
-                                    style: "DANGER",
-                                    customId: "delete " + message.author.id
-                                }));
-                                embed = new discord_js_1.MessageEmbed({
-                                    title: info.이름,
-                                    description: info.설명,
-                                    color: "AQUA",
-                                    author: {
-                                        name: message.author.tag,
-                                        iconURL: message.author.displayAvatarURL()
-                                    },
-                                    footer: {
-                                        "text": "created by Cistus / Wiki from Shatagon Discord"
+                            switch (command) {
+                                case "help":
+                                    embed = new discord_js_1.MessageEmbed({
+                                        title: "샤타곤 위키 봇",
+                                        description: "> \uBD07, \uC704\uD0A4\uC5D0 \uB300\uD55C \uBB38\uC758\uB294 [\uC0E4\uD0C0\uACE4 \uB514\uC2A4\uCF54\uB4DC \uC11C\uBC84](https://discord.gg/starcitizenkr) \uC5D0\uC11C \uBD80\uD0C1\uB4DC\uB9AC\uBA70\n> \uBAA8\uB4E0 \uC800\uC791\uAD8C\uC740 \uAC1C\uBC1C\uC790||Cistus||\uC640 \uC704\uD0A4 \uC791\uC131\uC790||Shatagon Discord Wiki Team||\uC5D0\uAC8C \uC788\uC2B5\uB2C8\uB2E4.",
+                                        color: "AQUA",
+                                        author: {
+                                            iconURL: "https://cdn.discordapp.com/app-icons/859326338040463400/dd381c0c267d47637eea8bfb2b9fb051.png?size=64",
+                                            name: "Shatagon Discord"
+                                        },
+                                        footer: {
+                                            iconURL: (_c = client.user) === null || _c === void 0 ? void 0 : _c.displayAvatarURL(),
+                                            text: "Shatagon Wiki Bot"
+                                        },
+                                        fields: [
+                                            {
+                                                name: "How to use?",
+                                                value: "!{함선이름}\nex) !자벨린\`",
+                                                inline: true
+                                            }
+                                        ]
+                                    });
+                                    console.log(data);
+                                    ment = "**`\uCD1D \uB370\uC774\uD130`** : " + data.length + "\n\n";
+                                    _loop_1 = function (i) {
+                                        ment += "**" + i + "** : " + data.filter(function (j) { return j.type == i; }).length + "\n";
+                                    };
+                                    for (i in schemas) {
+                                        _loop_1(i);
                                     }
-                                });
-                                if (info.이미지링크 && info.이미지링크.toLowerCase() != "false") {
-                                    embed.setImage(info.이미지링크);
-                                }
-                                ;
-                                for (i in info) {
-                                    if (!["_id", "createdAt", "updatedAt", "이름", "설명", "이미지링크", "__v"].includes(i)) {
-                                        embed.addField(i, info[i], true);
+                                    ;
+                                    embed.addField("보유 데이터 수", ment, true);
+                                    message.reply({ embeds: [embed] });
+                                    break;
+                                default:
+                                    info_1 = data.filter(function (i) { return i.검색키워드.toLowerCase().includes(command.toLowerCase()); });
+                                    btn_1 = new discord_js_1.MessageActionRow().addComponents(new discord_js_1.MessageButton({
+                                        label: "삭제하기",
+                                        style: "DANGER",
+                                        customId: "delete " + message.author.id
+                                    }));
+                                    if (info_1 && message.channel.type === "GUILD_TEXT" && message.channel.name.toLowerCase() === "shatagonwiki-bot") {
+                                        createEmbed_1 = function (ship) {
+                                            var embed = new discord_js_1.MessageEmbed({
+                                                title: ship.이름,
+                                                description: ship.설명,
+                                                color: "AQUA",
+                                                author: {
+                                                    name: message.author.tag,
+                                                    iconURL: message.author.displayAvatarURL()
+                                                },
+                                                footer: {
+                                                    "text": "created by Cistus / Wiki from Shatagon Discord"
+                                                }
+                                            });
+                                            if (ship.이미지링크 && ship.이미지링크.toLowerCase() != "false") {
+                                                embed.setImage(ship.이미지링크);
+                                            }
+                                            ;
+                                            for (var i in ship) {
+                                                if (!["_id", "createdAt", "updatedAt", "이름", "설명", "이미지링크", "__v", "type"].includes(i)) {
+                                                    embed.addField(i, ship[i], true);
+                                                }
+                                            }
+                                            ;
+                                            embed.addFields({
+                                                "name": "생성일",
+                                                "value": moment_timezone_1.default(ship.createdAt).tz("Asia/Seoul").format("YYYY-MM-DD / HH:mm:ss")
+                                            }, {
+                                                "name": "마지막 수정일",
+                                                "value": moment_timezone_1.default(ship.updatedAt).tz("Asia/Seoul").format("YYYY-MM-DD / HH:mm:ss")
+                                            });
+                                            return embed;
+                                        };
+                                        if (info_1.length > 1) {
+                                            page_1 = 0;
+                                            btns = new discord_js_1.MessageActionRow().addComponents(new discord_js_1.MessageButton({
+                                                customId: "back",
+                                                emoji: "⏮️",
+                                                style: "PRIMARY",
+                                                label: "이전"
+                                            }), new discord_js_1.MessageButton({
+                                                customId: "next",
+                                                emoji: "⏭️",
+                                                style: "PRIMARY",
+                                                label: "다음"
+                                            }), new discord_js_1.MessageButton({
+                                                customId: "delete",
+                                                emoji: "🗑️",
+                                                style: "DANGER",
+                                                label: "지우기"
+                                            }));
+                                            e_1 = createEmbed_1(info_1[page_1]);
+                                            message.reply({ embeds: [e_1], components: [btns] }).then(function (m) {
+                                                var filter = function (interaction) { return interaction.isButton() && interaction.user.id === message.author.id; };
+                                                var collector = m.createMessageComponentCollector({ filter: filter, time: 60000 });
+                                                collector.on('collect', function (i) {
+                                                    i.deferUpdate();
+                                                    switch (i.customId) {
+                                                        case "next":
+                                                            if (page_1 === info_1.length)
+                                                                return;
+                                                            page_1++;
+                                                            e_1 = createEmbed_1(info_1[page_1]);
+                                                            m.edit({ embeds: [e_1] });
+                                                            break;
+                                                        case "back":
+                                                            if (page_1 === 0)
+                                                                return;
+                                                            page_1--;
+                                                            e_1 = createEmbed_1(info_1[page_1]);
+                                                            m.edit({ embeds: [e_1] });
+                                                            break;
+                                                        case "delete":
+                                                            m.delete();
+                                                            collector.stop("stop");
+                                                            break;
+                                                    }
+                                                    ;
+                                                });
+                                                collector.on('end', function (collected, reason) {
+                                                    if (reason === "stop")
+                                                        return;
+                                                    m.edit({ content: "1분이 지나 삭제버튼만 남겼습니다.", components: [btn_1] });
+                                                });
+                                            });
+                                        }
+                                        else if (info_1.length === 1) {
+                                            e = createEmbed_1(info_1[0]);
+                                            message.reply({ embeds: [e], components: [btn_1] });
+                                        }
+                                        ;
                                     }
-                                }
-                                ;
-                                embed.addFields({
-                                    "name": "생성일",
-                                    "value": moment_timezone_1.default(info.createdAt).tz("Asia/Seoul").format("YYYY-MM-DD / HH:mm:ss")
-                                }, {
-                                    "name": "마지막 수정일",
-                                    "value": moment_timezone_1.default(info.updatedAt).tz("Asia/Seoul").format("YYYY-MM-DD / HH:mm:ss")
-                                });
-                                message.reply({ embeds: [embed], components: [btn] });
+                                    ;
+                                    break;
                             }
                             ;
                             return [2 /*return*/];
@@ -276,7 +381,7 @@ app.use(express_1.default.static(__dirname + '/build'));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 var oauthRequest = function (token, type, req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var oauthResult, oauthData, userResult, userData, e_1;
+    var oauthResult, oauthData, userResult, userData, e_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -322,7 +427,7 @@ var oauthRequest = function (token, type, req, res) { return __awaiter(void 0, v
                 }));
                 return [3 /*break*/, 6];
             case 5:
-                e_1 = _a.sent();
+                e_2 = _a.sent();
                 req.session.destroy(function (err) {
                     console.log(err);
                 });
