@@ -1,8 +1,13 @@
 import Header from './modules/Header';
 import Footer from './modules/Footer';
 
-import 함선 from "./Types/함선";
 import 무기 from "./Types/무기";
+import 부품 from "./Types/부품";
+import 세력 from "./Types/세력";
+import 장비 from "./Types/장비";
+import 함선 from "./Types/함선";
+import 행성계 from "./Types/행성계";
+import 화물 from "./Types/화물";
 
 import style from './Editor.module.css';
 import { Container, Form, FloatingLabel } from 'react-bootstrap';
@@ -69,7 +74,12 @@ function Editor() {
                     <Form.Select name="type" onChange={change}>
                         <option>{endPoint}</option>
                         <option value="무기">무기</option>
+                        <option value="부품">부품</option>
+                        <option value="세력">세력</option>
+                        <option value="장비">장비</option>
                         <option value="함선">함선</option>
+                        <option value="행성계">행성계</option>
+                        <option value="화물">화물</option>
                     </Form.Select>
                 </FloatingLabel>
                 <input type="text" name="edit" value="false" style={{
@@ -102,10 +112,20 @@ function Editor() {
                             (() => {
                                 if (!endPoint) return;
                                 switch (endPoint) {
-                                    case "함선":
-                                        return <함선 />
                                     case "무기":
                                         return <무기 />
+                                    case "부품":
+                                        return <부품 />
+                                    case "세력":
+                                        return <세력 />
+                                    case "장비":
+                                        return <장비 />
+                                    case "함선":
+                                        return <함선 />
+                                    case "행성계":
+                                        return <행성계 />
+                                    case "화물":
+                                        return <화물 />
                                     default:
                                         return <></>
                                 }

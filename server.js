@@ -362,7 +362,6 @@ db.on("open", function () {
                 }
                 ;
             });
-            client.login(token);
             return [2 /*return*/];
         });
     }); });
