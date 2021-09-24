@@ -17,6 +17,7 @@ import { useState, useEffect } from 'react';
 
 function Editor() {
     const [handler] = useState(null);
+    const [name, setName] = useState(null);
     const [endPoint, setEndPoint] = useState("불러올 에디터 템플릿을 골라주세요");
 
     useEffect(() => {
@@ -28,6 +29,7 @@ function Editor() {
                 let name = Params.get("이름");
                 let type = Params.get("type");
                 if (!type || !name || !type) return;
+                setName(name);
                 setEndPoint(type);
                 const edit = () => {
                     let ele;
@@ -36,8 +38,10 @@ function Editor() {
                             ele = document.getElementsByName(i)
                             if (ele.length < 0) return
                             if (!ele[0]) return
-                            if (i === "이름")
-                                ele[0].disabled = true;
+                            if (i === "이름") {
+                                ele[0].style.visibility = "hidden"
+                                ele[0].style.maxHeight = "0px";
+                            }
                             ele[0].value = wikiData[i];
                         }
                     };

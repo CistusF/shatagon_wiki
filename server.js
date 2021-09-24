@@ -527,6 +527,7 @@ app.post("/submit", function (req, res) { return __awaiter(void 0, void 0, void 
                 ;
                 schema = mongoose_1.model(req.body.type, schemas[req.body.type]);
                 if (!(req.body.edit === "true")) return [3 /*break*/, 1];
+                console.log(req.query);
                 schema.update({ "이름": req.body.이름 }, info, { "multi": true }).then(function () {
                     return res.status(200).redirect("/wiki");
                 }).catch(function (err) {
