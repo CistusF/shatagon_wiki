@@ -204,6 +204,9 @@ db.on("open", function () {
                             return [3 /*break*/, 1];
                         case 4:
                             ;
+                            data.sort(function (a, b) {
+                                return a.이름 < b.이름 ? -1 : a.이름 > b.이름 ? 1 : 0;
+                            });
                             switch (command) {
                                 case "help":
                                     embed = new discord_js_1.MessageEmbed({
@@ -362,6 +365,7 @@ db.on("open", function () {
                 }
                 ;
             });
+            client.login(token);
             return [2 /*return*/];
         });
     }); });
